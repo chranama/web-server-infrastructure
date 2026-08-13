@@ -1,0 +1,67 @@
+{
+  "version": 1,
+  "runtime": {
+    "active_config": "/Users/example-server/.cloudflared/example-tunnel.yml",
+    "candidate_root": "/Users/example-server/web-server-infrastructure-runtime/candidates",
+    "backup_root": "/Users/example-server/web-server-infrastructure-runtime/backups/shared-ingress",
+    "expected_user": "example-server",
+    "expected_group": "staff",
+    "tunnel_name": "example-tunnel",
+    "service_target": "system/dev.example.tunnel",
+    "cloudflared_bin": "/usr/local/bin/cloudflared",
+    "lock_dir": "/tmp/dev.example.shared-ingress.lock"
+  },
+  "routes": [
+    {
+      "name": "application-one",
+      "kind": "http",
+      "hostname": "api-one.example.test",
+      "service": "http://127.0.0.1:8080",
+      "probe_url": "https://api-one.example.test/health",
+      "health_checks": [
+        {
+          "url": "http://127.0.0.1:8080/health",
+          "expected_status": "ok"
+        },
+        {
+          "url": "https://api-one.example.test/health",
+          "expected_status": "ok"
+        }
+      ]
+    },
+    {
+      "name": "application-two",
+      "kind": "http",
+      "hostname": "api-two.example.test",
+      "service": "http://127.0.0.1:8081",
+      "probe_url": "https://api-two.example.test/ready",
+      "health_checks": [
+        {
+          "url": "http://127.0.0.1:8081/health",
+          "expected_status": "ok"
+        },
+        {
+          "url": "https://api-two.example.test/ready",
+          "expected_status": "ready"
+        }
+      ]
+    },
+    {
+      "name": "host-ssh",
+      "kind": "ssh",
+      "hostname": "ssh.example.test",
+      "service": "ssh://127.0.0.1:22",
+      "probe_url": "https://ssh.example.test/"
+    },
+    {
+      "name": "terminal-catchall",
+      "kind": "catchall",
+      "service": "http_status:404"
+    }
+  ],
+  "local_ssh": {
+    "host": "127.0.0.1",
+    "port": 22
+  }
+}
+

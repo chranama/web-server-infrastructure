@@ -1,0 +1,15 @@
+# Render only inside the protected runtime candidate directory.
+# Never place tunnel credential contents or a rendered version in Git.
+
+tunnel: __TUNNEL_UUID__
+credentials-file: __CLOUDFLARED_CREDENTIALS_FILE__
+
+ingress:
+  - hostname: __HTTP_ONE_HOSTNAME__
+    service: __HTTP_ONE_SERVICE__
+  - hostname: __HTTP_TWO_HOSTNAME__
+    service: __HTTP_TWO_SERVICE__
+  - hostname: __SSH_HOSTNAME__
+    service: __SSH_SERVICE__
+  - service: __CATCHALL_SERVICE__
+

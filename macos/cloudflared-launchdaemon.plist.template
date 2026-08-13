@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+  "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>__SERVICE_LABEL__</string>
+
+  <key>UserName</key>
+  <string>__SERVICE_USER__</string>
+
+  <key>ProgramArguments</key>
+  <array>
+    <string>__CLOUDFLARED_BIN__</string>
+    <string>tunnel</string>
+    <string>--config</string>
+    <string>__ACTIVE_CONFIG__</string>
+    <string>run</string>
+    <string>__TUNNEL_NAME__</string>
+  </array>
+
+  <key>WorkingDirectory</key>
+  <string>__RUNTIME_ROOT__</string>
+
+  <key>RunAtLoad</key>
+  <true/>
+
+  <key>KeepAlive</key>
+  <true/>
+
+  <key>StandardOutPath</key>
+  <string>__RUNTIME_ROOT__/logs/cloudflared.out.log</string>
+
+  <key>StandardErrorPath</key>
+  <string>__RUNTIME_ROOT__/logs/cloudflared.err.log</string>
+
+  <key>ProcessType</key>
+  <string>Background</string>
+</dict>
+</plist>
+

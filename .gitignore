@@ -1,0 +1,22 @@
+# Rendered host contract and runtime material
+config/contract.json
+candidates/
+backups/
+logs/
+evidence/
+source-version
+
+# Credentials and environment files
+.env
+.env.*
+*.pem
+*.key
+*.p12
+*.json.secret
+
+# macOS and editor state
+.DS_Store
+.idea/
+.vscode/
+__pycache__/
+*.py[cod]

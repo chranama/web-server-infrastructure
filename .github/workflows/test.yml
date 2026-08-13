@@ -1,0 +1,35 @@
+name: test
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  contract:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Install cloudflared
+        run: brew install cloudflared
+      - name: Check shell syntax
+        run: |
+          bash -n cloudflare/validate-shared-ingress.sh
+          bash -n cloudflare/activate-shared-ingress.sh
+          bash -n tests/test-shared-ingress.sh
+          bash -n tests/test-plist-template.sh
+          bash -n tests/test-no-secrets.sh
+      - name: Test ingress contract
+        run: bash tests/test-shared-ingress.sh
+      - name: Validate canonical template with cloudflared
+        env:
+          SHARED_INGRESS_CLOUDFLARED_BIN: /opt/homebrew/bin/cloudflared
+        run: bash tests/test-shared-ingress.sh
+      - name: Test launchd template
+        run: bash tests/test-plist-template.sh
+      - name: Test repository boundary
+        run: bash tests/test-no-secrets.sh
