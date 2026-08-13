@@ -10,7 +10,8 @@ The implementation supports a deliberately small deployment:
 - two HTTP applications with separate loopback origins and health checks;
 - one Access-protected SSH route to the host's existing OpenSSH service;
 - a terminal 404 catch-all;
-- one launchd-managed `cloudflared` connector; and
+- one launchd-managed `cloudflared` connector;
+- one root-owned, launchd-managed open-source `tailscaled` administration path; and
 - guarded activation with a protected backup and automatic rollback.
 
 It is not a high-availability design. The applications still share one computer, network
@@ -47,6 +48,10 @@ or secret state do not share a directory.
 The live configuration is never edited in place and is never run directly from this checkout.
 The server does not automatically pull or activate new commits.
 
+The macOS system-Tailscale path includes a guarded cutover wrapper that stops the GUI client,
+installs the pinned system daemon, enrolls it from a protected one-time key file, removes that
+bootstrap file after verification, and restores the prior GUI path if the operation fails.
+
 See [architecture](docs/architecture.md) for the trust and ownership boundaries and
 [operations](docs/operations.md) for the promotion, validation, SSH hardening, client setup,
 activation, and recovery sequence.
@@ -67,6 +72,7 @@ The local tests require Bash, Python 3, and macOS `plutil`. Contract tests use a
 bash tests/test-shared-ingress.sh
 bash tests/test-plist-template.sh
 bash tests/test-ssh-templates.sh
+bash tests/test-tailscaled-system.sh
 bash tests/test-no-secrets.sh
 ```
 

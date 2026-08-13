@@ -16,6 +16,7 @@ public HTTPS -> Cloudflare -> one tunnel connector -> application-one loopback o
                                              \----> application-two loopback origin
 
 operator cloudflared -> Cloudflare Access -> same connector -> loopback OpenSSH
+operator Tailscale app -> tailnet policy -> system tailscaled -> loopback OpenSSH
 ```
 
 The SSH route is a network reachability layer, not the origin authentication mechanism. A
@@ -26,6 +27,11 @@ design.
 The native `cloudflared access ssh` client is the secondary administration path. Browser-rendered
 SSH is intentionally optional and must remain disabled if it would require password authentication,
 broad account mapping, or a weaker Access policy.
+
+The primary private path uses the open-source CLI-only `tailscaled` variant as a root-owned system
+LaunchDaemon. Its state is root-only under `/Library/Tailscale`, and its local control socket is
+under `/var/run`. Tailscale SSH remains disabled so macOS OpenSSH and the existing public key remain
+authoritative.
 
 ## Source, runtime, and secrets
 

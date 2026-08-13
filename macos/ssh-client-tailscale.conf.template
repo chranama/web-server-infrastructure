@@ -1,0 +1,13 @@
+# Render this block only after the system node and its MagicDNS identity are verified.
+# Reuse the already trusted origin key identity instead of accepting a new host key.
+
+Host __SSH_ALIAS__
+    HostName __MAGICDNS_NAME__
+    HostKeyAlias __TRUSTED_HOST_KEY_ALIAS__
+    User __ADMIN_USER__
+    IdentityFile __IDENTITY_FILE__
+    IdentitiesOnly yes
+    AddKeysToAgent yes
+    UseKeychain yes
+    ServerAliveInterval 60
+    ServerAliveCountMax 3

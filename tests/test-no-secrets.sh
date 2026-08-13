@@ -27,7 +27,7 @@ fi
 if /usr/bin/grep -RIEq \
   --exclude-dir=.git \
   --exclude='test-no-secrets.sh' \
-  '(-----BEGIN (OPENSSH|RSA|EC|DSA) PRIVATE KEY-----|sk-[A-Za-z0-9_-]{20,}|gh[pousr]_[A-Za-z0-9]{20,}|cloudflared access token|CF-Access-Client-Secret[[:space:]]*[:=][[:space:]]*[^_[:space:]][^[:space:]]+)' \
+  '(-----BEGIN (OPENSSH|RSA|EC|DSA) PRIVATE KEY-----|sk-[A-Za-z0-9_-]{20,}|gh[pousr]_[A-Za-z0-9]{20,}|tskey-auth-[A-Za-z0-9_-]+|cloudflared access token|CF-Access-Client-Secret[[:space:]]*[:=][[:space:]]*[^_[:space:]][^[:space:]]+)' \
   .; then
   printf 'test-no-secrets: secret-shaped value found\n' >&2
   exit 1
@@ -43,4 +43,3 @@ if /usr/bin/grep -RIEq \
 fi
 
 printf 'test-no-secrets: repository boundary passed\n'
-

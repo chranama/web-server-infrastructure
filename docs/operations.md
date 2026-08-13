@@ -89,6 +89,31 @@ are ready should the exact SSH route be activated. Verify an interactive shell a
 round trip, then confirm both public applications remain healthy. Access authentication events are
 useful; terminal contents and SSH command logging are not required by this design.
 
+## Establish system Tailscale
+
+Use the open-source CLI-only macOS variant only when pre-login administration is required and an
+independent Cloudflare recovery session is already proven. Pin a stable version and official
+distribution checksum. Stage the `tailscale` and `tailscaled` binaries plus a rendered
+`tailscaled-launchdaemon.plist.template` in protected runtime state, and validate the candidate
+before any root-owned installation.
+
+The installer refuses to proceed while the GUI client is active, records prior target files, and
+requires explicit confirmations for GUI shutdown and Cloudflare recovery. The system daemon stores
+root-only state under `/Library/Tailscale`, starts from the system launchd domain, and keeps its
+local control socket under `/var/run`. Bootstrap credentials must be one-off, pre-authorized, kept
+out of command history, source, logs, and process arguments, and destroyed after registration.
+
+For the live migration, use `macos/cutover-tailscaled-system.sh` so GUI shutdown, helper
+disablement, system installation, tagged enrollment, verification, bootstrap-key removal, and
+failure recovery remain one guarded operation. The auth key must be stored in a mode-600 file
+outside this repository; the script passes only the file path to the CLI.
+
+Keep Tailscale SSH disabled. After registration, verify the intended node identity and restrictive
+tailnet policy, then bind the primary client alias to the node's verified MagicDNS name while
+reusing the already trusted origin host-key identity. Prove the primary SSH and bounded file paths,
+then recheck the Cloudflare recovery alias and both public applications before retiring the GUI
+node identity.
+
 ## Recovery
 
 Stay on the independent administration path or local console. Validate the protected pre-change
