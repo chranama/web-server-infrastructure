@@ -121,6 +121,21 @@ configuration, restore that exact file with the expected owner and mode, restart
 service, verify its process contract, and rerun every local and public health check. Use an
 application's own rollback if routing is not the demonstrated cause.
 
+## Restart and power boundaries
+
+Treat these as distinct operations:
+
+- An application restart replaces only that application's process after its active-work gate.
+- A shared-tunnel restart can interrupt every public route and the Cloudflare SSH recovery path;
+  use protected activation or rollback while retaining the independent administration path.
+- A controlled OS reboot tests launchd, network, both administration paths, and all applications
+  together. Measure recovery before any GUI login.
+- A cold power-on additionally depends on disk unlock, hardware, power restoration, and network
+  association. A successful reboot does not prove cold-power recovery.
+
+Do not restart several layers at once. Verify the replaced layer and every dependent health gate
+before moving to another one.
+
 ## Select an administration path
 
 The accepted SSH aliases are `mealcheck-server` for system Tailscale and
@@ -147,3 +162,10 @@ configuration. If a connection fails before any remote mutation, the operator ma
 repeat a read-only check through the other alias after confirming the first attempt made no
 change. Once any remote mutation begins, stop and inspect state through the independent path;
 never retry the operation automatically.
+
+## Periodic review
+
+Choose and record a review date for the pinned Tailscale and `cloudflared` releases and for the
+Cloudflare Access application, identity policy, MFA requirement, and session duration. Review
+earlier when a relevant security update is published or before a material route or authentication
+change. An update is a new guarded promotion and verification event, not an automatic pull.
