@@ -48,7 +48,8 @@ The live configuration is never edited in place and is never run directly from t
 The server does not automatically pull or activate new commits.
 
 See [architecture](docs/architecture.md) for the trust and ownership boundaries and
-[operations](docs/operations.md) for the promotion, validation, activation, and recovery sequence.
+[operations](docs/operations.md) for the promotion, validation, SSH hardening, client setup,
+activation, and recovery sequence.
 
 ## Example applications
 
@@ -65,6 +66,7 @@ The local tests require Bash, Python 3, and macOS `plutil`. Contract tests use a
 ```bash
 bash tests/test-shared-ingress.sh
 bash tests/test-plist-template.sh
+bash tests/test-ssh-templates.sh
 bash tests/test-no-secrets.sh
 ```
 

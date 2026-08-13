@@ -1,0 +1,9 @@
+# Render __ADMIN_USER__ to the one local administration account before installation.
+# Keep this rule in an early sshd_config Include directory so first-value-wins
+# processing cannot be overridden by later global defaults.
+
+Match User __ADMIN_USER__
+    PubkeyAuthentication yes
+    AuthenticationMethods publickey
+    PasswordAuthentication no
+    KbdInteractiveAuthentication no

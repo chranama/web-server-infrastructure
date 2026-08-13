@@ -1,0 +1,14 @@
+# Render the placeholders and merge this block into the operator's ~/.ssh/config.
+# cloudflared is an interactive client proxy here; do not install its tunnel service.
+
+Host __SSH_ALIAS__
+    HostName __SSH_HOSTNAME__
+    HostKeyAlias __TRUSTED_HOST_KEY_ALIAS__
+    User __ADMIN_USER__
+    IdentityFile __IDENTITY_FILE__
+    IdentitiesOnly yes
+    AddKeysToAgent yes
+    UseKeychain yes
+    ServerAliveInterval 60
+    ServerAliveCountMax 3
+    ProxyCommand __CLOUDFLARED_BIN__ access ssh --hostname %h

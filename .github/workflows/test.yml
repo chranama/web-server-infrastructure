@@ -20,8 +20,11 @@ jobs:
         run: |
           bash -n cloudflare/validate-shared-ingress.sh
           bash -n cloudflare/activate-shared-ingress.sh
+          bash -n macos/verify-sshd-key-only.sh
+          bash -n macos/install-sshd-key-only.sh
           bash -n tests/test-shared-ingress.sh
           bash -n tests/test-plist-template.sh
+          bash -n tests/test-ssh-templates.sh
           bash -n tests/test-no-secrets.sh
       - name: Test ingress contract
         run: bash tests/test-shared-ingress.sh
@@ -31,5 +34,7 @@ jobs:
         run: bash tests/test-shared-ingress.sh
       - name: Test launchd template
         run: bash tests/test-plist-template.sh
+      - name: Test SSH templates
+        run: bash tests/test-ssh-templates.sh
       - name: Test repository boundary
         run: bash tests/test-no-secrets.sh

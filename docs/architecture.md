@@ -23,6 +23,10 @@ deny-by-default Access policy and MFA should protect the hostname, while OpenSSH
 require the accepted public key. Publishing raw router TCP/22 or enabling passwords is outside this
 design.
 
+The native `cloudflared access ssh` client is the secondary administration path. Browser-rendered
+SSH is intentionally optional and must remain disabled if it would require password authentication,
+broad account mapping, or a weaker Access policy.
+
 ## Source, runtime, and secrets
 
 The public Git checkout contains only reusable source. A protected runtime tree receives an
@@ -43,4 +47,3 @@ both applications before and after replacement, and restores the prior configura
 Multiple tunnels on the same host would not provide host, power, network, domain, account, or
 provider availability. Split tunnels when credentials, owners, hosts, compliance boundaries, or
 availability targets genuinely diverge.
-
