@@ -26,10 +26,12 @@ jobs:
           bash -n macos/install-tailscaled-system.sh
           bash -n macos/cutover-tailscaled-system.sh
           bash -n macos/verify-tailscaled-system.sh
+          bash -n macos/check-admin-path.sh
           bash -n tests/test-shared-ingress.sh
           bash -n tests/test-plist-template.sh
           bash -n tests/test-ssh-templates.sh
           bash -n tests/test-tailscaled-system.sh
+          bash -n tests/test-admin-path.sh
           bash -n tests/test-no-secrets.sh
       - name: Test ingress contract
         run: bash tests/test-shared-ingress.sh
@@ -43,5 +45,7 @@ jobs:
         run: bash tests/test-ssh-templates.sh
       - name: Test system tailscaled controls
         run: bash tests/test-tailscaled-system.sh
+      - name: Test dual administration paths
+        run: bash tests/test-admin-path.sh
       - name: Test repository boundary
         run: bash tests/test-no-secrets.sh

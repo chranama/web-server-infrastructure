@@ -120,3 +120,30 @@ Stay on the independent administration path or local console. Validate the prote
 configuration, restore that exact file with the expected owner and mode, restart only the tunnel
 service, verify its process contract, and rerun every local and public health check. Use an
 application's own rollback if routing is not the demonstrated cause.
+
+## Select an administration path
+
+The accepted SSH aliases are `mealcheck-server` for system Tailscale and
+`mealcheck-server-cf` for Cloudflare Access. Never accept an arbitrary hostname in a mutating
+workflow, and never switch paths automatically after a remote command has begun.
+
+Validate either local SSH configuration without opening a network connection or browser:
+
+```bash
+macos/check-admin-path.sh mealcheck-server
+macos/check-admin-path.sh mealcheck-server-cf
+```
+
+Run the bounded remote checks through one deliberately selected path:
+
+```bash
+macos/check-admin-path.sh --connect mealcheck-server
+macos/check-admin-path.sh --connect mealcheck-server-cf
+```
+
+The Cloudflare check requires an already valid interactive Access session. It does not contain an
+Access token and must not run in unattended CI. CI uses configuration-only mode with a test SSH
+configuration. If a connection fails before any remote mutation, the operator may deliberately
+repeat a read-only check through the other alias after confirming the first attempt made no
+change. Once any remote mutation begins, stop and inspect state through the independent path;
+never retry the operation automatically.

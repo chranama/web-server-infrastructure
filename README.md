@@ -73,6 +73,7 @@ bash tests/test-shared-ingress.sh
 bash tests/test-plist-template.sh
 bash tests/test-ssh-templates.sh
 bash tests/test-tailscaled-system.sh
+bash tests/test-admin-path.sh
 bash tests/test-no-secrets.sh
 ```
 
